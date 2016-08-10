@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>PHP</title>
+	<link rel="stylesheet" type="text/css" href="../stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/github-light.css" media="screen">
+</head>
+<body>
+
+	<section class="page-header">
+      <h1 class="project-name">OOP的學習筆記</h1>
+      <h2 class="project-tagline">Codeigniter3的一些學習隨筆</h2><!--
+      <a href="https://github.com/hmj1026/paul" class="btn">View on GitHub</a>
+      <a href="https://github.com/hmj1026/paul/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/hmj1026/paul/tarball/master" class="btn">Download .tar.gz</a>-->
+    </section>
+	
+<section class="main-content">
+	
+	<h3>
+	<a id="" class="anchor" href="#" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>-></h3>
+
+	<p>動態選單</p>
+
+	<h3>
+	<a id="" class="anchor" href="#" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>$this</h3>
+
+	<p></p>
+
+	<h3>
+	<a id="" class="anchor" href="#" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>model_method</h3>
+
+	<p>
+		<code>
+
+		public function get_select_menu($username){
+
+        $menu = array();
+
+        $this->db->where('account', $username);
+
+        $this->db->select('mc.clientId, mc.account,cb.weekId,cb.create_at');
+
+        $this->db->from('tb_member_client mc', 'tb_commission_bonus cb');
+        $this->db->join('tb_commission_bonus cb', 'cb.clientId = mc.clientId');
+
+        $query = $this->db->get();
+       
+       if ($query->num_rows()>0) {
+           
+           foreach ($query->result() as $row) {
+
+               $date = substr($row->create_at,0,-9);
+
+               $first_day = 0;
+
+               $weekday = date("w", strtotime($date));
+               $del_day = $weekday - $first_day;
+
+               $week_start_day = date("Y-m-d", strtotime("$date -".$del_day." days"));
+               $week_end_day = date("Y-m-d", strtotime("$week_start_day +6 days"));
+
+               $menu[$row->weekId] = "第".$row->weekId."週 / ".$week_start_day." ~ ".$week_end_day;
+
+           }
+
+       }
+
+        return $menu;
+    }
+        
+    }</code>
+
+	</p>
+
+
+
+
+
+</section>
+</body>
+</html>
